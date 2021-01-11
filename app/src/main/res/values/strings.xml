@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Films search</string>
+    <string name="menu">Меню</string>
+    <string name="btn_menu">Меню</string>
+    <string name="btn_fav">Избранное</string>
+    <string name="btn_watch_later">Посмотреть позже</string>
+    <string name="btn_selections">Подборки</string>
+    <string name="btn_setting">Настройки</string>
+    <string name="disclaimer">Использованы постеры https://www.movieposters.com/</string>
 </resources>
