@@ -3,36 +3,51 @@ package com.erflagg.myproject
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*
+import com.erflagg.myproject.databinding.ActivityMainBinding
+
+private var binding : ActivityMainBinding? = null
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_main)
 
-        initButtons()
+        initNavigation()
+
+
+
     }
 
-    private fun initButtons() {
+    private fun initNavigation() {
 
-        button_menu.setOnClickListener {
-            Toast.makeText(this, R.string.btn_menu, Toast.LENGTH_SHORT).show()
+        binding?.topAppBar?.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.settings -> {
+                    Toast.makeText(this, "Настройки", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
         }
 
-        button_fav.setOnClickListener {
-            Toast.makeText(this, R.string.btn_fav, Toast.LENGTH_SHORT).show()
-        }
+        binding?.bottomNavigation?.setOnNavigationItemSelectedListener {
 
-        button_selections.setOnClickListener {
-            Toast.makeText(this, R.string.btn_selections, Toast.LENGTH_SHORT).show()
-        }
-
-        button_settings.setOnClickListener {
-            Toast.makeText(this, R.string.btn_setting, Toast.LENGTH_SHORT).show()
-        }
-
-        button_watch_later.setOnClickListener {
-            Toast.makeText(this, R.string.btn_watch_later, Toast.LENGTH_SHORT).show()
+            when (it.itemId) {
+                R.id.favorites -> {
+                    Toast.makeText(this, "Избранное", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.watch_later -> {
+                    Toast.makeText(this, "Посмотреть похже", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.complation -> {
+                    Toast.makeText(this, "Подборки", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
         }
     }
 }
