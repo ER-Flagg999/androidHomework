@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
-                android:src="@drawable/starwars" />
+                android:src="@drawable/swepisode4" />
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
-                android:src="@drawable/returnofthejedi" />
+                android:src="@drawable/swepisode6" />
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
-                android:src="@drawable/empirestrikesback" />
+                android:src="@drawable/swepisode5" />
 
             <ImageView
                 android:id="@+id/imageView4"
@@ -91,84 +91,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/TopPanel" />
 
-    <GridLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/main_recycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_margin="16dp"
-        android:columnCount="2"
-        android:orientation="horizontal"
-        android:useDefaultMargins="true"
         app:layout_constraintTop_toBottomOf="@+id/disclaimer"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layoutAnimation="@anim/layout_anim">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/poster_1"
-            android:layout_width="150dp"
-            android:layout_height="200dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:stateListAnimator="@animator/poster_press_animation"
-            app:cardCornerRadius="15dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/empirestrikesback"
-                android:scaleType="centerCrop"/>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/poster_2"
-            android:layout_width="150dp"
-            android:layout_height="200dp"
-            android:clickable="true"
-            android:stateListAnimator="@animator/poster_press_animation"
-            app:cardCornerRadius="15dp"
-            android:focusable="true">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/returnofthejedi"
-                android:scaleType="centerCrop"/>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/poster_3"
-            android:layout_width="150dp"
-            android:layout_height="200dp"
-            app:cardCornerRadius="15dp"
-            android:clickable="true"
-            android:stateListAnimator="@animator/poster_press_animation"
-            android:focusable="true">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/starwars"
-                android:scaleType="centerCrop"/>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/poster_4"
-            android:layout_width="150dp"
-            android:layout_height="200dp"
-            app:cardCornerRadius="15dp"
-            android:clickable="true"
-            android:stateListAnimator="@animator/poster_press_animation"
-            android:focusable="true">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/swepisode1"
-                android:scaleType="centerCrop"/>
-        </androidx.cardview.widget.CardView>
-
-    </GridLayout>
+        tools:listitem="@layout/film_item"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
