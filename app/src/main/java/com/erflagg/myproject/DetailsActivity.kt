@@ -2,12 +2,15 @@ package com.erflagg.myproject
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_details.*
+import com.erflagg.myproject.databinding.ActivityDetailsBinding
+
+private var binding : ActivityDetailsBinding? = null
 
 class DetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_details)
+        binding = ActivityDetailsBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
 
         setFilmsDetails()
     }
@@ -17,10 +20,10 @@ class DetailsActivity : AppCompatActivity() {
         val film = intent.extras?.get("film") as Film
 
         //Устанавливаем заголовок
-        details_toolbar.title = film.title
+        binding?.detailsToolbar?.title = film.title
         //Устанавливаем картинку
-        details_poster.setImageResource(film.poster)
+        binding?.detailsPoster?.setImageResource(film.poster)
         //Устанавливаем описание
-        details_description.text = film.description
+        binding?.detailsDescription?.text = film.description
     }
 }
