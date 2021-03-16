@@ -16,15 +16,16 @@
         <ImageView
             android:id="@+id/poster"
             android:layout_width="150dp"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/zeroDp"
             android:scaleType="centerCrop"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zeroDp"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:padding="8dp"
@@ -37,8 +38,8 @@
 
         <TextView
             android:id="@+id/description"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/zeroDp"
+            android:layout_height="@dimen/zeroDp"
             android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/poster"

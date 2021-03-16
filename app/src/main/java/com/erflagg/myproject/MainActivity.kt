@@ -44,16 +44,13 @@ class MainActivity : AppCompatActivity() {
                     bundle.putParcelable("film", film)
                     //Запускаем наше активити
                     val intent = Intent(this@MainActivity, DetailsActivity::class.java)
-                    //Прикрепляем бандл к интенту
-                    intent.putExtras(bundle)
+                    .putExtras(bundle)
                     //Запускаем активити через интент
                     startActivity(intent)
                 }
             })
             //Присваиваем адаптер
             adapter = filmsAdapter
-            //Присвои layoutmanager
-            layoutManager = LinearLayoutManager(this@MainActivity)
             //Применяем декоратор для отступов
             val decorator = TopSpacingItemDecoration(8)
             addItemDecoration(decorator)

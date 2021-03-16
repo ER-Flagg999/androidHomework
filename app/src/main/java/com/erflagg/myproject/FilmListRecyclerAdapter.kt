@@ -21,14 +21,22 @@ class FilmListRecyclerAdapter(private val clickListener: OnItemClickListener) : 
 
     //В этом методе будет привязка полей из объекта Film к View из film_item.xml
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            val filmViewHolder = holder as FilmViewHolder
-        filmViewHolder.itemBinding.title.text = items[position].title
-        filmViewHolder.itemBinding.description.text = items[position].description
-        filmViewHolder.itemBinding.poster.setImageResource(items[position].poster)
-
-        holder.itemView.setOnClickListener {
-            clickListener.click(items[position])
+//        val filmViewHolder = holder as FilmViewHolder
+//        filmViewHolder.itemBinding.title.text = items[position].title
+//        filmViewHolder.itemBinding.description.text = items[position].description
+//        filmViewHolder.itemBinding.poster.setImageResource(items[position].poster)
+        when(holder) {
+            is FilmViewHolder -> {
+                holder.bind(items[position])
+                holder.itemBinding.itemContainer.setOnClickListener {
+                    clickListener.click(items[position])
+                }
+            }
         }
+
+//        holder.itemView.setOnClickListener {
+//            filmViewHolder.bind(items[position])
+//        }
 
         }
 
