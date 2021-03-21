@@ -1,5 +1,6 @@
 package com.erflagg.myproject
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,8 +8,10 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.erflagg.myproject.databinding.ActivityMainBinding
 
+@SuppressLint("StaticFieldLeak")
 private lateinit var binding : ActivityMainBinding
 
+private var backPressed = 0L
 
 
 lateinit var filmsAdapter: FilmListRecyclerAdapter
@@ -27,6 +30,26 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack(null)
             .commit()
 
+    }
+
+    override fun onBackPressed() {
+
+        if (supportFragmentManager.backStackEntryCount == 1) {
+            if (backPressed + TIME_INTERVAL > System.currentTimeMillis()) {
+                super.onBackPressed()
+                finish()
+            } else{
+                Toast.makeText(this@MainActivity, "Double tap for exit", Toast.LENGTH_SHORT).show()
+            }
+            backPressed = System.currentTimeMillis()
+        } else {
+            super.onBackPressed()
+        }
+
+    }
+
+    companion object {
+        const val TIME_INTERVAL = 2000
     }
 
     fun launchDetailsFragment(film: Film) {
