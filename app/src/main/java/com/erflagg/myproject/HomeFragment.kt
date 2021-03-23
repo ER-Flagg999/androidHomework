@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import androidx.recyclerview.widget.RecyclerView
 import com.erflagg.myproject.databinding.FragmentHomeBinding
-
+import java.util.*
 
 
 class HomeFragment : Fragment() {
@@ -41,11 +43,55 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mainRecyclerApplyAndAddItems()
+        searchViewInitializing()
+    }
+
+    private fun searchViewInitializing() {
+        binding.searchView.setOnClickListener {
+            binding.searchView.isIconified = false
+        }
+
+        binding.searchView.setOnQueryTextListener(object  : SearchView.OnQueryTextListener, androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText.isNullOrEmpty()) {
+                    filmsAdapter.addItems(filmsDataBase)
+                    return true
+                }
+                val result = filmsDataBase.filter {
+                    it.title.toLowerCase(Locale.getDefault()).contains(newText.toLowerCase(Locale.getDefault()))
+                }
+                filmsAdapter.addItems(result)
+                return true
+            }
+
+        })
+    }
+
+    private fun mainRecyclerApplyAndAddItems() {
+
+        binding.mainRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                        binding.searchView.visibility = View.INVISIBLE
+                } else {
+                    binding.searchView.visibility = View.VISIBLE
+                }
+            }
+
+        })
+
         //находим наш RV
         binding.mainRecycler.apply {
             //Инициализируем наш адаптер в конструктор передаем анонимно инициализированный интерфейс,
             //оставим его пока пустым, он нам понадобится во второй части задания
-            filmsAdapter = FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener{
+            filmsAdapter = FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
                 override fun click(film: Film) {
                     (requireActivity() as MainActivity).launchDetailsFragment(film)
                 }
@@ -56,7 +102,7 @@ class HomeFragment : Fragment() {
             val decorator = TopSpacingItemDecoration(8)
             addItemDecoration(decorator)
         }
-            //Кладем нашу БД в RV
+        //Кладем нашу БД в RV
         filmsAdapter.addItems(filmsDataBase)
     }
 
