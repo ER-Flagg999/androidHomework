@@ -1,7 +1,8 @@
 package com.erflagg.myproject
 
 import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+//import kotlinx.parcelize.Parcelize
+import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Film(

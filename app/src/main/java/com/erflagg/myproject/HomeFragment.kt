@@ -2,15 +2,20 @@ package com.erflagg.myproject
 
 import android.os.Bundle
 import android.transition.Scene
+import android.transition.Slide
 import android.transition.TransitionManager
+import android.transition.TransitionSet
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.erflagg.myproject.databinding.FragmentHomeBinding
-import com.erflagg.myproject.databinding.MergeHomeScreenContentBinding
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.merge_home_screen_content.*
 import java.util.*
 
 
@@ -28,8 +33,8 @@ class HomeFragment : Fragment() {
             Film("Star Wars: Episode IX - The Rise of Skywalker", R.drawable.swepisode9, "The surviving members of the resistance face the First Order once again, and the legendary conflict between the Jedi and the Sith reaches its peak bringing the Skywalker saga to its end."),
     )
 
-    private var _mergeBinding: MergeHomeScreenContentBinding?= null
-    private val mergeBinding get() = _mergeBinding!!
+    //private var _mergeBinding: MergeHomeScreenContentBinding?= null
+    //private val mergeBinding get() = _mergeBinding!!
 
     private var _homeBinding: FragmentHomeBinding? = null
     private val homeBinding get() = _homeBinding!!
@@ -51,10 +56,23 @@ class HomeFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
 
-        _mergeBinding = MergeHomeScreenContentBinding.bind(homeBinding.root)
+        //_mergeBinding = MergeHomeScreenContentBinding.bind(homeBinding.homeFragmentRoot)
 
         val scene = Scene.getSceneForLayout(homeBinding.homeFragmentRoot, R.layout.merge_home_screen_content, requireContext())
-        TransitionManager.go(scene)
+        //Создаем анимацию выезда поля поиска сверху
+        val searchSlide = Slide(Gravity.TOP).addTarget(R.id.search_view)
+        //Создаем анимацию выезда RV снизу
+        val recyclerSlide = Slide(Gravity.BOTTOM).addTarget(R.id.main_recycler)
+        //Создаем экземпляр TransitionSet, который объединит все наши анимации
+        val customTransition = TransitionSet().apply {
+            //Устанавливаем время, за которое будет проходить анимация
+            duration = 500
+            //Добавляем сами анимации
+            addTransition(recyclerSlide)
+            addTransition(searchSlide)
+        }
+        //Также запускаем через TransitionManager, но вторым параметром передаем нашу кастомную анимацию
+        TransitionManager.go(scene, customTransition)
 
         searchViewInitializing()
 
@@ -68,11 +86,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun searchViewInitializing() {
-        mergeBinding.searchView.setOnClickListener {
-            mergeBinding.searchView.isIconified = false
+        search_view.setOnClickListener {
+            search_view.isIconified = false
         }
 
-        mergeBinding.searchView.setOnQueryTextListener(object  : SearchView.OnQueryTextListener, androidx.appcompat.widget.SearchView.OnQueryTextListener {
+        search_view.setOnQueryTextListener(object  : SearchView.OnQueryTextListener, androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
@@ -94,21 +112,21 @@ class HomeFragment : Fragment() {
 
     private fun ininRecycler() {
 
-        mergeBinding.mainRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        main_recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
-                        mergeBinding.searchView.visibility = View.INVISIBLE
+                        search_view.visibility = View.INVISIBLE
                 } else {
-                    mergeBinding.searchView.visibility = View.VISIBLE
+                    search_view.visibility = View.VISIBLE
                 }
             }
 
         })
 
         //находим наш RV
-        mergeBinding.mainRecycler.apply {
+        main_recycler.apply {
             //Инициализируем наш адаптер в конструктор передаем анонимно инициализированный интерфейс,
             //оставим его пока пустым, он нам понадобится во второй части задания
             filmsAdapter = FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
@@ -118,6 +136,8 @@ class HomeFragment : Fragment() {
             })
             //Присваиваем адаптер
             adapter = filmsAdapter
+            //Присвои layoutmanager
+            layoutManager = LinearLayoutManager(requireContext())
             //Применяем декоратор для отступов
             val decorator = TopSpacingItemDecoration(8)
             addItemDecoration(decorator)
@@ -127,7 +147,7 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _mergeBinding = null
+//        _mergeBinding = null
         _homeBinding = null
     }
 
